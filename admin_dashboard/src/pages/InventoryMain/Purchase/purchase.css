@@ -1,0 +1,10 @@
+.custom-card-header {
+  background: #c1f0c0;
+}
+.action-buttons {
+  margin-right: 5px;
+  /* Adjust this value as needed */
+}
+.center {
+  text-align: center;
+}
