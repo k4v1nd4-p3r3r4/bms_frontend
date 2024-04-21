@@ -8,6 +8,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import AddPurchase from "./AddPurchase";
 import Editpurchase from "./Editpurchase";
+import Pagination from "../../../components/Pagination";
 
 function Purchase() {
   const pages = ["Purchase"];
@@ -17,6 +18,10 @@ function Purchase() {
   const [selectPurchaseId, setSelectedPurchaseId] = useState(null);
   //this one for fetch purchase materials
   const [purchase, setPurchase] = useState([]);
+  //this for paginate purchase materials
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(15);
+
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/purchaseMaterial").then((res) => {
       console.log(res);
@@ -24,13 +29,26 @@ function Purchase() {
     });
   }, []);
 
+  // Logic to get current purchase for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentPurchase = purchase.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Logic for rendering pagination buttons
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(purchase.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   const handleShow = (purchaseId) => {
     setSelectedPurchaseId(purchaseId);
     setModalShow(true);
   };
 
   var PurchaseMaterialsDetails = "";
-  PurchaseMaterialsDetails = purchase.map((pitem, index) => {
+  PurchaseMaterialsDetails = currentPurchase.map((pitem, index) => {
     return (
       <tr key={index}>
         <td className="center">{pitem.purchase_id}</td>
@@ -86,6 +104,13 @@ function Purchase() {
                     </thead>
                     <tbody>{PurchaseMaterialsDetails}</tbody>
                   </table>
+                  <Pagination
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    totalItems={purchase.length}
+                    paginate={paginate}
+                    className="custom-pagination"
+                  />
                 </div>
               </div>
             </div>
