@@ -41,6 +41,10 @@ function Editmaterials({ material_id }) {
       .put(`http://127.0.0.1:8000/api/materials/${material_id}/edit`, data)
       .then((res) => {
         alert(res.data.message);
+        // Close the modal
+        document.getElementById("editpurchaseModal").click();
+        // Reload the materials page
+        window.location.reload();
       })
       .catch(function (error) {
         if (error.response) {
@@ -58,22 +62,6 @@ function Editmaterials({ material_id }) {
     <>
       <form onSubmit={saveMaterials}>
         <div className="row mb-3">
-          <div className="col-md-6">
-            <label htmlFor="material_id" className="form-label">
-              Material id
-            </label>
-            <input
-              type="text"
-              name="material_id"
-              id="mid"
-              placeholder="Enter material id here..(ex: Mxxx)"
-              className="form-control"
-              value={materials.material_id}
-              onChange={handleInput}
-            />
-            <span className="text-danger">{inputErrorList.material_id}</span>
-          </div>
-
           <div className="col-md-6">
             <label htmlFor="material_name" className="form-label">
               Material Name

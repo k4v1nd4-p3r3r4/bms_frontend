@@ -51,14 +51,14 @@ function Purchase() {
   PurchaseMaterialsDetails = currentPurchase.map((pitem, index) => {
     return (
       <tr key={index}>
-        <td className="center">{pitem.purchase_id}</td>
-        <td className="center">{pitem.material_id}</td>
-        <td className="center">{pitem.supplier_id}</td>
-        <td className="center">{pitem.date}</td>
-        <td className="center">{pitem.qty}</td>
-        <td className="center">{pitem.unit_price}</td>
-        <td className="center">{pitem.total_amount}</td>
-        <td className="center">
+        <td>{pitem.purchase_id}</td>
+        <td>{pitem.material_id}</td>
+        <td>{pitem.supplier_id}</td>
+        <td>{pitem.date}</td>
+        <td>{pitem.qty}</td>
+        <td>{pitem.unit_price}</td>
+        <td>{pitem.total_amount}</td>
+        <td>
           <button
             className="btn btn-success"
             onClick={() => handleShow(pitem.purchase_id)}
@@ -78,8 +78,8 @@ function Purchase() {
       <Sidebar />
       <PageTitle page="Purchase" pages={pages} icon={icon} />
       <main id="main" className="main" style={{ marginTop: "2px" }}>
-        <div className="container">
-          <div className="row">
+        <div className="container tbl-container">
+          <div className="row tbl-fixed">
             <div className="col-md-12">
               <div className="card">
                 <div className="card-header custom-card-header">
@@ -92,14 +92,14 @@ function Purchase() {
                   <table className="table table-striped">
                     <thead>
                       <tr>
-                        <th className="center">P_Id</th>
-                        <th className="center">M_Id</th>
-                        <th className="center">S_Id</th>
-                        <th className="center">Date</th>
-                        <th className="center">Qty</th>
-                        <th className="center">U_Price</th>
-                        <th className="center">T_Amount</th>
-                        <th className="center">Action</th>
+                        <th>Purchase Id</th>
+                        <th>Material Id</th>
+                        <th>Supplier Id</th>
+                        <th>Date</th>
+                        <th>Qty</th>
+                        <th>Unit_Price</th>
+                        <th>Total Amount</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>{PurchaseMaterialsDetails}</tbody>
@@ -133,7 +133,14 @@ function Purchase() {
         <Modal.Body>
           {selectPurchaseId && <Editpurchase purchase_id={selectPurchaseId} />}
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
+        <Modal.Footer>
+          {/* Hidden button for simulating modal close */}
+          <button
+            id="editpurchaseModal"
+            style={{ display: "none" }}
+            data-bs-dismiss="modal"
+          ></button>
+        </Modal.Footer>
       </Modal>
     </>
   );

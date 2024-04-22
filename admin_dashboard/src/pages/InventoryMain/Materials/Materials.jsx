@@ -52,6 +52,7 @@ function Materials() {
       <td>{item.material_name}</td>
       <td>{item.unit}</td>
       <td>{item.initial_qty}</td>
+      <td>{item.available_qty}</td>
       <td>
         <button
           className="btn btn-success"
@@ -89,7 +90,8 @@ function Materials() {
                         <th>Id</th>
                         <th>Name</th>
                         <th>Unit</th>
-                        <th>Quantity</th>
+                        <th>Initial Qty</th>
+                        <th>Available</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -131,7 +133,14 @@ function Materials() {
             <Editmaterials material_id={selectedMaterialId} />
           )}
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
+        <Modal.Footer>
+          {/* Hidden button for simulating modal close */}
+          <button
+            id="editMaterialModal"
+            style={{ display: "none" }}
+            data-bs-dismiss="modal"
+          ></button>
+        </Modal.Footer>
       </Modal>
     </>
   );

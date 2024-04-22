@@ -50,11 +50,11 @@ function Usage() {
   UsageMaterialsDetails = currentUsage.map((uitem, index) => {
     return (
       <tr key={index}>
-        <td className="center">{uitem.usage_id}</td>
-        <td className="center">{uitem.material_id}</td>
-        <td className="center">{uitem.date}</td>
-        <td className="center">{uitem.usage_qty}</td>
-        <td className="center">
+        <td>{uitem.usage_id}</td>
+        <td>{uitem.material_id}</td>
+        <td>{uitem.date}</td>
+        <td>{uitem.usage_qty}</td>
+        <td>
           <button
             className="btn btn-success"
             onClick={() => handleShow(uitem.usage_id)}
@@ -75,8 +75,8 @@ function Usage() {
       <Sidebar />
       <PageTitle page="Usage" pages={pages} icon={icon} />
       <main id="main" className="main" style={{ marginTop: "2px" }}>
-        <div className="container">
-          <div className="row">
+        <div className="container  tbl-container">
+          <div className="row  tbl-fixed">
             <div className="col-md-12">
               <div className="card">
                 <div className="card-header custom-card-header">
@@ -89,13 +89,13 @@ function Usage() {
                   <table className="table table-striped">
                     <thead>
                       <tr>
-                        <th className="center">U_Id</th>
-                        <th className="center">M_Id</th>
+                        <th>Usage Id</th>
+                        <th>Material Id</th>
 
-                        <th className="center">Date</th>
-                        <th className="center">Qty</th>
+                        <th>Date</th>
+                        <th>Qty</th>
 
-                        <th className="center">Action</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>{UsageMaterialsDetails}</tbody>
@@ -131,7 +131,14 @@ function Usage() {
         <Modal.Body>
           {selectUsageId && <Editusage usage_id={selectUsageId} />}
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
+        <Modal.Footer>
+          {/* Hidden button for simulating modal close */}
+          <button
+            id="editusageModal"
+            style={{ display: "none" }}
+            data-bs-dismiss="modal"
+          ></button>
+        </Modal.Footer>
       </Modal>
     </>
   );

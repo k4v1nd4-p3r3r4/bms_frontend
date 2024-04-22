@@ -43,6 +43,10 @@ function Editpurchase({ purchase_id }) {
       )
       .then((res) => {
         alert(res.data.message);
+        // Close the modal
+        document.getElementById("editMaterialModal").click();
+        // Reload the materials page
+        window.location.reload();
       })
       .catch(function (error) {
         if (error.response) {

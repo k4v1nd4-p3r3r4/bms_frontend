@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
-import { useNavigate } from "react-router-dom";
 
 function AddMaterial(props) {
   const [modalShow, setModalShow] = useState(false);
   const [inputErrorList, setInputErrorList] = useState({});
-  const navigate = useNavigate();
 
   const [materials, setMaterials] = useState({
     material_id: "",
@@ -43,7 +41,8 @@ function AddMaterial(props) {
       .post("http://127.0.0.1:8000/api/materials", data)
       .then((res) => {
         alert(res.data.message);
-        navigate("/Materials");
+        setModalShow(false); // Close the modal
+        window.location.reload(); // Reload the materials page
       })
       .catch(function (error) {
         if (error.response) {

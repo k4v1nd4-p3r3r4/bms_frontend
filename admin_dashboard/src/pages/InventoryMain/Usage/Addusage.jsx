@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
+import { fetchMaterialIds } from "../../../components/Apiservices";
 
 function Addusage(props) {
   const [modalShow, setModalShow] = useState(false);
   const [inputErrorList, setInputErrorList] = useState({});
-
+  const [materialIds, setMaterialIds] = useState([]); //this is for get material id to dropdown list
   const [usage, setUsage] = useState({
     material_id: "",
     date: "",
     usage_qty: "",
   });
+
+  useEffect(() => {
+    fetchMaterialIds(setMaterialIds); // Call fetchMaterialIds and update materialIds state
+  }, []);
 
   const handleShow = () => {
     setModalShow(true);
@@ -39,6 +44,8 @@ function Addusage(props) {
       .post("http://127.0.0.1:8000/api/usagematerials", data)
       .then((res) => {
         alert(res.data.message);
+        setModalShow(false); // Close the modal
+        window.location.reload(); // Reload the materials page
       })
       .catch(function (error) {
         if (error.response) {
@@ -91,12 +98,12 @@ function Addusage(props) {
                   value={usage.material_id}
                   onChange={handleInput}
                 >
-                  <option value="">Select Id</option>
-                  <option value="M001">M001</option>
-                  <option value="M002">M002</option>
-                  <option value="M003">M003</option>
-                  <option value="M004">M004</option>
-                  <option value="M005">M005</option>
+                  <option value="">Select Material ID</option>
+                  {materialIds.map((materialId) => (
+                    <option key={materialId} value={materialId}>
+                      {materialId}
+                    </option>
+                  ))}
                 </select>
                 <span className="text-danger">
                   {inputErrorList.material_id}

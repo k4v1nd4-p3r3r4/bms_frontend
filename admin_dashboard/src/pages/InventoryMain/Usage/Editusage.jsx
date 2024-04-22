@@ -40,6 +40,11 @@ function Editusage({ usage_id }) {
       )
       .then((res) => {
         alert(res.data.message);
+        alert(res.data.message);
+        // Close the modal
+        document.getElementById("editusageModal").click();
+        // Reload the materials page
+        window.location.reload();
       })
       .catch(function (error) {
         if (error.response) {
