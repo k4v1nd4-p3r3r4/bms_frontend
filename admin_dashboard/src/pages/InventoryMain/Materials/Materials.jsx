@@ -7,12 +7,15 @@ import Sidebar from "../../../components/Sidebar";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import AddMaterial from "./MaterialOperations/AddMaterial";
 import Editmaterials from "./MaterialOperations/Editmaterials";
+import Pagination from "../../../components/Pagination"; // Import Pagination component
 import "./materials.css";
 
 function Materials() {
   const [modalShow, setModalShow] = useState(false);
   const [materials, setMaterials] = useState([]);
   const [selectedMaterialId, setSelectedMaterialId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(15);
 
   useEffect(() => {
     axios
@@ -25,18 +28,32 @@ function Materials() {
       });
   }, []);
 
+  // Logic to get current materials for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentMaterials = materials.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Logic for rendering pagination buttons
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(materials.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   const handleShow = (materialId) => {
     setSelectedMaterialId(materialId);
     setModalShow(true);
   };
 
-  const materialsDetails = materials.map((item, index) => (
+  const materialsDetails = currentMaterials.map((item, index) => (
     <tr key={index}>
-      <td className="center">{item.material_id}</td>
-      <td className="center">{item.material_name}</td>
-      <td className="center">{item.unit}</td>
-      <td className="center">{item.initial_qty}</td>
-      <td className="center">
+      <td>{item.material_id}</td>
+      <td>{item.material_name}</td>
+      <td>{item.unit}</td>
+      <td>{item.initial_qty}</td>
+      <td>{item.available_qty}</td>
+      <td>
         <button
           className="btn btn-success"
           onClick={() => handleShow(item.material_id)}
@@ -56,8 +73,8 @@ function Materials() {
       <Sidebar />
       <PageTitle page="Materials" pages={["Materials"]} icon="bi bi-house-up" />
       <main id="main" className="main" style={{ marginTop: "2px" }}>
-        <div className="container">
-          <div className="row">
+        <div className="container tbl-container">
+          <div className="row tbl-fixed">
             <div className="col-md-12">
               <div className="card">
                 <div className="card-header custom-card-header">
@@ -70,15 +87,27 @@ function Materials() {
                   <table className="table table-striped">
                     <thead>
                       <tr>
-                        <th className="center">Id</th>
-                        <th className="center">Name</th>
-                        <th className="center">Unit</th>
-                        <th className="center">Quantity</th>
-                        <th className="center">Action</th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Unit</th>
+                        <th>Initial Qty</th>
+                        <th>Available</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>{materialsDetails}</tbody>
+                    <tfoot>
+                      <tr></tr>
+                    </tfoot>
                   </table>
+                  {/* Pagination */}
+                  <Pagination
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    totalItems={materials.length}
+                    paginate={paginate}
+                    className="custom-pagination"
+                  />
                 </div>
               </div>
             </div>
@@ -104,7 +133,14 @@ function Materials() {
             <Editmaterials material_id={selectedMaterialId} />
           )}
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
+        <Modal.Footer>
+          {/* Hidden button for simulating modal close */}
+          <button
+            id="editMaterialModal"
+            style={{ display: "none" }}
+            data-bs-dismiss="modal"
+          ></button>
+        </Modal.Footer>
       </Modal>
     </>
   );

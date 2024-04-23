@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
-import { useNavigate } from "react-router-dom";
+import {
+  fetchMaterialIds,
+  fetchSupplierIds,
+} from "../../../components/Apiservices";
+
 import "./addpurchase.css";
 
 function AddPurchase(props) {
   const [modalShow, setModalShow] = useState(false);
   const [inputErrorList, setInputErrorList] = useState({});
-  const navigate = useNavigate();
-
+  const [materialIds, setMaterialIds] = useState([]); //this is for get material id to dropdown list
+  const [supplierIds, setSupplierIds] = useState([]);
   const [purchase, setPurchase] = useState({
     material_id: "",
     supplier_id: "",
@@ -16,6 +20,12 @@ function AddPurchase(props) {
     qty: "",
     unit_price: "",
   });
+
+  useEffect(() => {
+    fetchMaterialIds(setMaterialIds); // Call fetchMaterialIds and update materialIds state
+    fetchSupplierIds(setSupplierIds); // Call fetchSupplierIds and update supplierIds state
+  }, []);
+
   const handleShow = () => {
     setModalShow(true);
   };
@@ -45,6 +55,8 @@ function AddPurchase(props) {
       .post("http://127.0.0.1:8000/api/purchaseMaterial", data)
       .then((res) => {
         alert(res.data.message);
+        setModalShow(false); // Close the modal
+        window.location.reload(); // Reload the materials page
       })
       .catch(function (error) {
         if (error.response) {
@@ -91,6 +103,7 @@ function AddPurchase(props) {
                 <label htmlFor="material_id" className="form-label">
                   Material id
                 </label>
+
                 <select
                   name="material_id"
                   id="material_id"
@@ -98,12 +111,12 @@ function AddPurchase(props) {
                   value={purchase.material_id}
                   onChange={handleInput}
                 >
-                  <option value="">Select Id</option>
-                  <option value="M001">M001</option>
-                  <option value="M002">M002</option>
-                  <option value="M003">M003</option>
-                  <option value="M004">M004</option>
-                  <option value="M005">M005</option>
+                  <option value="">Select Material ID</option>
+                  {materialIds.map((materialId) => (
+                    <option key={materialId} value={materialId}>
+                      {materialId}
+                    </option>
+                  ))}
                 </select>
                 <span className="text-danger">
                   {inputErrorList.material_id}
@@ -121,12 +134,12 @@ function AddPurchase(props) {
                   value={purchase.supplier_id}
                   onChange={handleInput}
                 >
-                  <option value="">Select Id</option>
-                  <option value="S001">S001</option>
-                  <option value="S002">S002</option>
-                  <option value="S003">S003</option>
-                  <option value="S004">S004</option>
-                  <option value="S005">S005</option>
+                  <option value="">Select Supplier ID</option>
+                  {supplierIds.map((supplierId) => (
+                    <option key={supplierId} value={supplierId}>
+                      {supplierId}
+                    </option>
+                  ))}
                 </select>
                 <span className="text-danger">
                   {inputErrorList.supplier_id}

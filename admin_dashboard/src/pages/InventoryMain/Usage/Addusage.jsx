@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
+import { fetchMaterialIds } from "../../../components/Apiservices";
 
-function AddMaterial(props) {
+function Addusage(props) {
   const [modalShow, setModalShow] = useState(false);
   const [inputErrorList, setInputErrorList] = useState({});
-
-  const [materials, setMaterials] = useState({
+  const [materialIds, setMaterialIds] = useState([]); //this is for get material id to dropdown list
+  const [usage, setUsage] = useState({
     material_id: "",
-    material_name: "",
-    unit: "",
-    initial_qty: "",
+    date: "",
+    usage_qty: "",
   });
+
+  useEffect(() => {
+    fetchMaterialIds(setMaterialIds); // Call fetchMaterialIds and update materialIds state
+  }, []);
 
   const handleShow = () => {
     setModalShow(true);
@@ -23,22 +27,21 @@ function AddMaterial(props) {
 
   const handleInput = (e) => {
     e.persist();
-    setMaterials({
-      ...materials,
+    setUsage({
+      ...usage,
       [e.target.name]: e.target.value,
     });
   };
-
-  const saveMaterials = (e) => {
+  const saveUsage = (e) => {
     e.preventDefault();
     const data = {
-      material_id: materials.material_id,
-      material_name: materials.material_name,
-      unit: materials.unit,
-      initial_qty: materials.initial_qty,
+      material_id: usage.material_id,
+      date: usage.date,
+      usage_qty: usage.usage_qty,
     };
+
     axios
-      .post("http://127.0.0.1:8000/api/materials", data)
+      .post("http://127.0.0.1:8000/api/usagematerials", data)
       .then((res) => {
         alert(res.data.message);
         setModalShow(false); // Close the modal
@@ -57,11 +60,10 @@ function AddMaterial(props) {
   };
 
   const clearForm = () => {
-    setMaterials({
+    setUsage({
       material_id: "",
-      material_name: "",
-      unit: "",
-      initial_qty: "",
+      date: "",
+      usage_qty: "",
     });
   };
 
@@ -70,7 +72,6 @@ function AddMaterial(props) {
       <button onClick={handleShow} className="btn btn-primary float-end">
         Add new
       </button>
-
       <Modal
         show={modalShow}
         onHide={handleClose}
@@ -80,85 +81,69 @@ function AddMaterial(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Add Material
+            Add Usage
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={saveMaterials}>
+          <form onSubmit={saveUsage}>
             <div className="row mb-3">
               <div className="col-md-6">
                 <label htmlFor="material_id" className="form-label">
                   Material id
                 </label>
-                <input
-                  type="text"
+                <select
                   name="material_id"
-                  id="mid"
-                  placeholder="Enter material id here..(ex: Mxxx)"
+                  id="material_id"
                   className="form-control"
-                  value={materials.material_id}
+                  value={usage.material_id}
                   onChange={handleInput}
-                />
+                >
+                  <option value="">Select Material ID</option>
+                  {materialIds.map((materialId) => (
+                    <option key={materialId} value={materialId}>
+                      {materialId}
+                    </option>
+                  ))}
+                </select>
                 <span className="text-danger">
                   {inputErrorList.material_id}
-                </span>
-              </div>
-
-              <div className="col-md-6">
-                <label htmlFor="material_name" className="form-label">
-                  Material Name
-                </label>
-                <input
-                  type="text"
-                  name="material_name"
-                  id="maname"
-                  placeholder="Enter material name here.."
-                  className="form-control"
-                  value={materials.material_name}
-                  onChange={handleInput}
-                />
-                <span className="text-danger">
-                  {inputErrorList.material_name}
                 </span>
               </div>
             </div>
             <div className="row mb-3">
               <div className="col-md-6">
-                <label htmlFor="unit of measure" className="form-label">
-                  Unit of measure
+                <label htmlFor="date" className="form-label">
+                  Date
                 </label>
-                <select
-                  name="unit"
-                  id="material_unit"
+                <input
+                  type="date"
+                  name="date"
+                  id="date"
                   className="form-control"
-                  value={materials.unit}
+                  value={usage.date}
                   onChange={handleInput}
-                >
-                  <option value="">Select Unit</option>
-                  <option value="Kg">Kg</option>
-                  <option value="g">g</option>
-                  <option value="cm">cm</option>
-                </select>
-                <span className="text-danger">{inputErrorList.unit}</span>
+                />
+                <span className="text-danger">{inputErrorList.date}</span>
               </div>
+            </div>
+            <div className="row mb-3">
               <div className="col-md-6">
                 <label htmlFor="qty" className="form-label">
-                  Quantity
+                  Usage Qty
                 </label>
                 <input
                   type="text"
-                  name="initial_qty"
+                  name="usage_qty"
                   id="qty"
-                  placeholder="Enter your quantity here.."
+                  placeholder="Enter quantity here.."
                   className="form-control"
-                  value={materials.initial_qty}
+                  value={usage.usage_qty}
                   onChange={handleInput}
                 />
-                <span className="text-danger">
-                  {inputErrorList.initial_qty}
-                </span>
+                <span className="text-danger">{inputErrorList.usage_qty}</span>
               </div>
             </div>
+
             <div className="row mb-3">
               <div className="col-md-12 text-end">
                 <button
@@ -185,5 +170,4 @@ function AddMaterial(props) {
     </>
   );
 }
-
-export default AddMaterial;
+export default Addusage;
