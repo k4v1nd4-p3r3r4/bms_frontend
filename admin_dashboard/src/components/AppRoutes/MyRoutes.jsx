@@ -20,6 +20,7 @@ import DailyTransaction from "../../pages/FinanceMain/DayTransaction/DailyTransa
 import Invoice from "../../pages/FinanceMain/Invoice/Invoice";
 import Reports from "../../pages/FinanceMain/Reports/Reports";
 import Editmaterials from "../../pages/InventoryMain/Materials/MaterialOperations/Editmaterials";
+import Addexpence from "../../pages/FinanceMain/DayTransaction/Addexpence";
 
 function MyRoutes() {
   return (
@@ -42,6 +43,7 @@ function MyRoutes() {
       <Route path="leaves" element={<Leaves />} />
       <Route path="dailytasks" element={<DailyTasks />} />
       <Route path="dayilytransaction" element={<DailyTransaction />} />
+      <Route path="dayilytransaction/addExpences" element={<Addexpence />} />
       <Route path="invoice" element={<Invoice />} />
       <Route path="reports" element={<Reports />} />
 
