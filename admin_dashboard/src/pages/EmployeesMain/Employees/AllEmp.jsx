@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import React from "react";
 import "./allemp.css";
 import Header from "../../../components/Header";
 import Sidebar from "../../../components/Sidebar";
 import PageTitle from "../../../components/PageTitle/PageTitle";
+
 
 function AllEmp() {
   const pages = ["All Employees"];
@@ -215,8 +217,6 @@ function AllEmp() {
 
    
       }
-
-
   return (
     <>
       <Header />

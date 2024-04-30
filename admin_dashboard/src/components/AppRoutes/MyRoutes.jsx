@@ -23,6 +23,7 @@ import Reports from "../../pages/FinanceMain/Reports/Reports";
 import Editmaterials from "../../pages/InventoryMain/Materials/MaterialOperations/Editmaterials";
 
 
+
 function MyRoutes() {
   return (
    
@@ -30,6 +31,7 @@ function MyRoutes() {
       
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
 
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/materials" element={<Materials />} />

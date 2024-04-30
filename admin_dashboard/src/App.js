@@ -13,12 +13,10 @@ import MyRoutes from "./components/AppRoutes/MyRoutes";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
-
-
-
 function App() {
   return (
     <div className="content">
+
       {/* <MyRoutes /> */}
 
      
@@ -29,7 +27,7 @@ function App() {
     
    
 
-
+      <MyRoutes />
     </div>
   );
 }
