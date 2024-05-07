@@ -88,12 +88,6 @@ function Sidebar() {
                 <span>Sales</span>
               </Link>
             </li>
-            <li>
-              <Link to="/Productstock">
-                <i className="bi bi-circle"></i>
-                <span>Stock</span>
-              </Link>
-            </li>
           </ul>
         </li>
 
@@ -184,12 +178,6 @@ function Sidebar() {
           <Link to="/Reports" className="nav-link">
             <i className="bi bi-bookmark-check"></i>
             <span>Reports</span>
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/Mytest" className="nav-link">
-            <i className="bi bi-bookmark-check"></i>
-            <span>test</span>
           </Link>
         </li>
       </ul>

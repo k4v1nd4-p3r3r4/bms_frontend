@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {
+  fetchMaterialIds,
+  fetchSupplierIds,
+} from "../../../components/Apiservices";
 
 function Editpurchase({ purchase_id }) {
   const [inputErrorList, setInputErrorList] = useState({});
   const [purchase, setPurchase] = useState({});
+  const [materialIds, setMaterialIds] = useState([]); //this is for get material id to dropdown list
+  const [supplierIds, setSupplierIds] = useState([]);
+
+  useEffect(() => {
+    fetchMaterialIds(setMaterialIds); // Call fetchMaterialIds and update materialIds state
+    fetchSupplierIds(setSupplierIds); // Call fetchSupplierIds and update supplierIds state
+  }, []);
 
   useEffect(() => {
     axios
@@ -44,7 +55,7 @@ function Editpurchase({ purchase_id }) {
       .then((res) => {
         alert(res.data.message);
         // Close the modal
-        document.getElementById("editMaterialModal").click();
+        document.getElementById("editpurchaseModal").click();
         // Reload the materials page
         window.location.reload();
       })
@@ -60,15 +71,6 @@ function Editpurchase({ purchase_id }) {
       });
   };
 
-  const clearForm = () => {
-    setPurchase({
-      material_id: "",
-      supplier_id: "",
-      date: "",
-      qty: "",
-      unit_price: "",
-    });
-  };
   return (
     <>
       <form onSubmit={savePurchase}>
@@ -84,12 +86,12 @@ function Editpurchase({ purchase_id }) {
               value={purchase.material_id}
               onChange={handleInput}
             >
-              <option value="">Select Id</option>
-              <option value="M001">M001</option>
-              <option value="M002">M002</option>
-              <option value="M003">M003</option>
-              <option value="M004">M004</option>
-              <option value="M005">M005</option>
+              <option value="">Select Material ID</option>
+              {materialIds.map((materialId) => (
+                <option key={materialId} value={materialId}>
+                  {materialId}
+                </option>
+              ))}
             </select>
             <span className="text-danger">{inputErrorList.material_id}</span>
           </div>
@@ -105,12 +107,12 @@ function Editpurchase({ purchase_id }) {
               value={purchase.supplier_id}
               onChange={handleInput}
             >
-              <option value="">Select Id</option>
-              <option value="S001">S001</option>
-              <option value="S002">S002</option>
-              <option value="S003">S003</option>
-              <option value="S004">S004</option>
-              <option value="S005">S005</option>
+              <option value="">Select Supplier ID</option>
+              {supplierIds.map((supplierId) => (
+                <option key={supplierId} value={supplierId}>
+                  {supplierId}
+                </option>
+              ))}
             </select>
             <span className="text-danger">{inputErrorList.supplier_id}</span>
           </div>
@@ -166,14 +168,6 @@ function Editpurchase({ purchase_id }) {
         </div>
         <div className="row mb-3">
           <div className="col-md-12 text-end">
-            <button
-              type="button"
-              className="btn btn-outline-danger"
-              style={{ marginRight: "5px" }}
-              onClick={clearForm}
-            >
-              Clear
-            </button>
             <button
               type="submit"
               className="btn btn-primary"

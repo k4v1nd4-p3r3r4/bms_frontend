@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { fetchMaterialIds } from "../../../components/Apiservices";
 
 function Editusage({ usage_id }) {
   const [inputErrorList, setInputErrorList] = useState({});
   const [usage, setUsage] = useState({});
+  const [materialIds, setMaterialIds] = useState([]); //this is for get material id to dropdown list
+
+  useEffect(() => {
+    fetchMaterialIds(setMaterialIds); // Call fetchMaterialIds and update materialIds state
+  }, []);
 
   useEffect(() => {
     axios
@@ -81,12 +87,12 @@ function Editusage({ usage_id }) {
               value={usage.material_id}
               onChange={handleInput}
             >
-              <option value="">Select Id</option>
-              <option value="M001">M001</option>
-              <option value="M002">M002</option>
-              <option value="M003">M003</option>
-              <option value="M004">M004</option>
-              <option value="M005">M005</option>
+              <option value="">Select Material ID</option>
+              {materialIds.map((materialId) => (
+                <option key={materialId} value={materialId}>
+                  {materialId}
+                </option>
+              ))}
             </select>
             <span className="text-danger">{inputErrorList.material_id}</span>
           </div>

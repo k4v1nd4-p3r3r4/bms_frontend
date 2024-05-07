@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Modal from "react-bootstrap/Modal";
+
 import "./editmaterials.css";
-import { Link, useParams } from "react-router-dom";
 
 function Editmaterials({ material_id }) {
   const [inputErrorList, setInputErrorList] = useState({});
@@ -34,6 +33,7 @@ function Editmaterials({ material_id }) {
     const data = {
       material_id: materials.material_id,
       material_name: materials.material_name,
+      category: materials.category,
       unit: materials.unit,
       initial_qty: materials.initial_qty,
     };
@@ -42,7 +42,7 @@ function Editmaterials({ material_id }) {
       .then((res) => {
         alert(res.data.message);
         // Close the modal
-        document.getElementById("editpurchaseModal").click();
+        document.getElementById("editMaterialModal").click();
         // Reload the materials page
         window.location.reload();
       })
@@ -76,6 +76,23 @@ function Editmaterials({ material_id }) {
               onChange={handleInput}
             />
             <span className="text-danger">{inputErrorList.material_name}</span>
+          </div>
+          <div className="col-md-6">
+            <label htmlFor="category" className="form-label">
+              Category
+            </label>
+            <select
+              name="category"
+              id="material_category"
+              className="form-control"
+              value={materials.category}
+              onChange={handleInput}
+            >
+              <option value="">Select category</option>
+              <option value="Food">Food</option>
+              <option value="Hand craft">Hand craft</option>
+            </select>
+            <span className="text-danger">{inputErrorList.category}</span>
           </div>
         </div>
         <div className="row mb-3">
