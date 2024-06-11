@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "../../pages/Login/Login";
+import Register from "../../pages/Register/Register"
 import Dashboard from "../../pages/InventoryMain/Dashboard/Dashboard";
 import Materials from "../../pages/InventoryMain/Materials/Materials";
 import Purchase from "../../pages/InventoryMain/Purchase/Purchase";
@@ -21,10 +22,16 @@ import Invoice from "../../pages/FinanceMain/Invoice/Invoice";
 import Reports from "../../pages/FinanceMain/Reports/Reports";
 import Editmaterials from "../../pages/InventoryMain/Materials/MaterialOperations/Editmaterials";
 
+
+
 function MyRoutes() {
   return (
+   
     <Routes>
+      
       <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
 
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/materials" element={<Materials />} />
@@ -49,7 +56,9 @@ function MyRoutes() {
         path="Editmaterials/:material_id/edit"
         element={<Editmaterials />}
       />
+    
     </Routes>
+   
   );
 }
 

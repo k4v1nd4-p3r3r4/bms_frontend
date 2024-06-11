@@ -1,98 +1,167 @@
-import React from "react";
-import "./login.css";
 
-function Login() {
+import React, { useState } from "react";
+import "./login.css"; // Assuming you have a separate SCSS file
+import Logo from './Logo.png'
+import axios from 'axios';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate,Link} from 'react-router-dom';
+
+
+
+const leftbox = {
+  background: '#344955'
+};
+
+
+const Login = () => {
+
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+const [isLoading, setIsLoading] = useState(false);
+const [errorMessage, setErrorMessage] = useState('');
+const navigate = useNavigate();
+
+
+const validateEmail = (email) => {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
+
+const validatePassword = (password) => {
+  // Adjust these requirements as needed
+  const minLength = 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecialChar = /[^a-zA-Z0-9]/.test(password);
   return (
-    <main id="main" className="main">
-      <section className="vh-100">
-        <div className="container py-5 h-100">
-          <div className="row d-flex align-items-center justify-content-center h-100">
-            <div className="col-md-8 col-lg-7 col-xl-6">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                className="img-fluid"
-                alt="Phone image"
-              />
-            </div>
-            <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-              <form>
-                {/* Email input */}
-                <div className="form-outline mb-4">
-                  <input
-                    type="email"
-                    id="form1Example13"
-                    className="form-control form-control-lg"
-                  />
-                  <label className="form-label" htmlFor="form1Example13">
-                    Email address
-                  </label>
-                </div>
-
-                {/* Password input */}
-                <div className="form-outline mb-4">
-                  <input
-                    type="password"
-                    id="form1Example23"
-                    className="form-control form-control-lg"
-                  />
-                  <label className="form-label" htmlFor="form1Example23">
-                    Password
-                  </label>
-                </div>
-
-                <div className="d-flex justify-content-around align-items-center mb-4">
-                  {/* Checkbox */}
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="form1Example3"
-                      checked
-                    />
-                    <label className="form-check-label" htmlFor="form1Example3">
-                      Remember me
-                    </label>
-                  </div>
-                  <a href="#!">Forgot password?</a>
-                </div>
-
-                {/* Submit button */}
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-lg btn-block"
-                >
-                  Sign in
-                </button>
-
-                <div className="divider d-flex align-items-center my-4">
-                  <p className="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-                </div>
-
-                <a
-                  className="btn btn-primary btn-lg btn-block"
-                  style={{ backgroundColor: "#3b5998" }}
-                  href="#!"
-                  role="button"
-                >
-                  <i className="fab fa-facebook-f me-2"></i>Continue with
-                  Facebook
-                </a>
-                <a
-                  className="btn btn-primary btn-lg btn-block"
-                  style={{ backgroundColor: "#55acee" }}
-                  href="#!"
-                  role="button"
-                >
-                  <i className="fab fa-twitter me-2"></i>Continue with Twitter
-                </a>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+    password.length >= minLength &&
+    hasUpperCase &&
+    hasLowerCase &&
+    hasNumber &&
+    hasSpecialChar
   );
+};
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+
+  let error = ''; // Create a variable to store combined errors
+
+  // Empty field checks
+  if (email.trim() === '') {
+    error += 'Email is required. ';
+  } else if (!validateEmail(email)) {
+    error += 'Invalid email address. ';
+  }
+
+  if (password.trim() === '') {
+    error += 'Password is required. ';
+  }
+
+  // Set error message and exit if any errors found
+  if (error) {
+    setErrorMessage(error.trim());
+    return;
+  }
+
+  // Email validation
+  if (!validateEmail(email)) {
+    setErrorMessage('Invalid email address');
+    return;
+  }
+
+  // Password validation
+  if (!validatePassword(password)) {
+    setErrorMessage('Password must be at least 8 characters and include uppercase, lowercase, numbers, and special characters');
+    return;
+  }
+
+  setIsLoading(true);
+  setErrorMessage('');
+   
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/login', {
+        email,
+        password,
+      });
+
+      // Handle successful login (e.g., store token, redirect to dashboard)
+      console.log('Login successful:', response.data); // Example logging
+      navigate('/dashboard');
+
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || 'Login failed');
+      console.error("Login Failed:", error); // Handle errors gracefully
+    } finally {
+      setIsLoading(false); // Reset loading state
+    }
+  };
+
+  
+return (
+
+ 
+      
+  <div className='container container d-flex justify-content-center align-items-center min-vh-100'>
+      
+      {/*--login center--*/}
+          <div className='row border rounded-4 p-3 bg-white shadow box-area'>
+
+
+          {/*--left box--*/}
+          <div className="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style={leftbox}>
+              <div className='featured-image mb-3'>
+                  <img src={Logo} alt="logo" className = 'img-fluid'style={{width:'500px'}} />
+              </div>
+              
+          </div>
+
+          {/*--right box--*/}
+
+          <div className="col-md-6 rounded-4 rigth-box">
+          <form onSubmit={handleSubmit}>
+              <div className="row align-items-center">
+                  <div className="header-text mb-4">
+                      <p className='text-center fs-2'>Business Management System </p>
+
+                  </div>
+                  <div className="input-group mb-3">
+                      <input type="text" className='form-control form-control-lg bg-light fs-6' placeholder='Email Address' value={email}
+                      onChange={(e) => setEmail(e.target.value)}/>
+                  </div>
+                  <div className="input-group mb-1">
+                      <input type="password" className='form-control form-control-lg bg-light fs-6' placeholder='Password'
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}/>
+                  </div>
+                  <div className="input-group mb-5 d-flex justify-content-between">
+                      <div className="form-check">
+                          <input type="checkbox" className='form-check-input' name="" id="formCheck"  />
+                          <label htmlFor="formCheck" className='form-check-lable text-secondary'><small>Rmember Me</small></label>
+                      </div>
+                      <div className='forgot'>
+                          <small><a href="#">Forgot Password?</a></small>
+                      </div>
+                  </div>
+                  <div className="input-group mb-3">
+                      <button className='btn btn-lg btn-primary w-100 fs-6'type="submit" disabled={isLoading}> {isLoading ? 'Loading...' : 'Login'}</button>
+                      {errorMessage && <p className="error-message text-danger">{errorMessage}</p>}
+                  </div>
+                  
+                  <div class="row">
+                    <small>Don't have account? <a href="#"> <Link to="/register">Register..</Link></a></small>
+                </div>
+              </div>
+            </form>
+          </div> 
+      </div>
+    
+  </div>
+    
+)
 }
 
 export default Login;
