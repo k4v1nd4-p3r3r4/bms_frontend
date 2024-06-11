@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import React from "react";
+
 import "./allemp.css";
 import Header from "../../../components/Header";
 import Sidebar from "../../../components/Sidebar";
@@ -12,6 +12,7 @@ function AllEmp() {
   const icon = "bi bi-house-up";
 
   const [id,setId] = useState('');
+    const[empid,setEmpid] = useState('');
     const[fname,setFname] = useState('');
     const [lname,setLname] = useState('');
     const [email,setEmail] = useState('');
@@ -41,6 +42,10 @@ function AllEmp() {
     let errors = {};
     let isValid = true;
 
+    if(!empid.trim()){
+      errors.empid= "Employee id is required";
+      isValid = false;
+    }
     if (!fname.trim()) {
       errors.fname= "First Name is required";
       isValid = false;
@@ -92,6 +97,7 @@ function AllEmp() {
   };
 
   const resetForm = () => {
+        setEmpid("");
         setFname("");
         setLname("");
         setEmail("");
@@ -114,6 +120,7 @@ function AllEmp() {
         
        await axios.post("http://127.0.0.1:8000/api/employee",
       {
+        empid:empid,
         fname:fname,
         lname:lname,
         email:email,
@@ -128,6 +135,7 @@ function AllEmp() {
       });
         alert("Employee registration Registation Successfully");
         setId("");
+        setEmpid("");
         setFname("");
         setLname("");
         setEmail("");
@@ -151,6 +159,7 @@ function AllEmp() {
 
  async function editEmployees(employees)
  {
+    setEmpid(employees.empid);
     setFname(employees.fname);
     setLname(employees.lname);
     setEmail(employees.email);
@@ -182,6 +191,7 @@ function AllEmp() {
         await axios.put("http://127.0.0.1:8000/api/employee/"+ employees.find(u => u.id === id).id || id,
        {
          id: id,
+         empid:empid,
          fname:fname,
          lname:lname,
          email:email,
@@ -194,6 +204,7 @@ function AllEmp() {
        });
          alert("Employee registraton updated");
          setId("");
+         setEmpid("");
          setFname("");
          setLname("");
          setEmail("");
@@ -230,6 +241,14 @@ function AllEmp() {
                 <form action="" className="mt-5 border p-4 bg-light shadow">
                     <h4 className="mb-5 text-secondary">Employee Details</h4>
                     <div className="row">
+                        <div className="mb-3 col-md-6">
+                            <label>Employee Id<span class="text-danger">*</span></label>
+                            <input type="text"  className="form-control" placeholder="Enter Employee Id" 
+                              value={empid} onChange={(event)=>{setEmpid(event.target.value)}}
+                            />
+                             {errors.empid && <p className="text-danger">{errors.empid}</p>}
+                             
+                        </div>
                         <div className="mb-3 col-md-6">
                             <label>First Name<span class="text-danger">*</span></label>
                             <input type="text"  className="form-control" placeholder="Enter First Name" id="firstName"
@@ -309,8 +328,8 @@ function AllEmp() {
                         </div>
 
                         <div class="col-md-12">
-                           <button className="btn btn-primary float-end" style={{marginRight:"10px"}} onClick={save}>Save</button>
-                           <button className="btn btn-primary float-end" style={{marginRight:"10px"}} onClick={update}>Update</button>
+                           <button className="btn btn-success float-end" style={{marginRight:"10px"}} onClick={save}>Save</button>
+                           <button className="btn btn-warning float-end" style={{marginRight:"10px"}} onClick={update}>Update</button>
                            <button className="btn btn-secondary float-end" style={{marginRight:"10px"}} onClick={resetForm}>Reset</button>
                         </div>
                     </div>
@@ -326,6 +345,7 @@ function AllEmp() {
           <table className="table table-striped table-hover">
             <thead>
               <tr>
+                <th scope="col">#</th>
                 <th scope="col">Employee Id</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
@@ -343,7 +363,8 @@ function AllEmp() {
             return(
             <tbody>
                 <tr>
-                <th scope="row">EMP{employee.id} </th>
+                <th scope="row">{employee.id} </th>
+                <td>{employee.empid}</td>
                 <td>{employee.fname}</td>
                 <td>{employee.lname}</td>
                 <td>{employee.email}</td>

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import React from "react";
+
 import "./dailytasks.css";
 import Header from "../../../components/Header";
 import Sidebar from "../../../components/Sidebar";
