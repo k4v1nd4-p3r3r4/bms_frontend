@@ -14,6 +14,7 @@ function FoodSale() {
   const [itemsPerPage] = useState(15);
   const [searchTerm, setSearchTerm] = useState(""); // Add state for search term
 
+  //Get  request to get foodsaless data
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/foodsales")
@@ -52,6 +53,7 @@ function FoodSale() {
     setModalShow(true);
   };
 
+  // popup message for conform delete
   const deletefoodsale = (e, foodsale_id) => {
     e.preventDefault();
     const shouldDelete = window.confirm(
@@ -59,6 +61,7 @@ function FoodSale() {
     );
     if (shouldDelete) {
       const thisClicked = e.currentTarget;
+      //request for delete
       axios
         .delete(
           `http://127.0.0.1:8000/api/foodsales/${foodsale_id}/foodsaledelete`

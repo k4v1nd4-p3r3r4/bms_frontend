@@ -28,7 +28,7 @@ function AddSupplier(props) {
       [e.target.name]: e.target.value,
     });
   };
-
+  // save the supplier details
   const saveSupplier = (e) => {
     e.preventDefault();
     const data = {
@@ -37,7 +37,7 @@ function AddSupplier(props) {
       contact_number: supplier.contact_number,
       address: supplier.address,
     };
-
+    // Send a POST request to add supplier data
     axios
       .post("http://127.0.0.1:8000/api/suppliers", data)
       .then((res) => {
@@ -56,7 +56,7 @@ function AddSupplier(props) {
         }
       });
   };
-
+  //clear form fields
   const clearForm = () => {
     setSuppliers({
       supplier_id: "",

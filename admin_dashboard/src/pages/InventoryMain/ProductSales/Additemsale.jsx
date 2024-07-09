@@ -41,6 +41,7 @@ function Additemsale() {
     });
   };
 
+  // sfunction for save data
   const saveItemsale = (e) => {
     e.preventDefault();
     const data = {
@@ -50,7 +51,7 @@ function Additemsale() {
       qty: itemsale.qty,
       unit_price: itemsale.unit_price,
     };
-
+    // Send a Put request to add handsales data
     axios
       .post("http://127.0.0.1:8000/api/handsales", data)
       .then((res) => {
@@ -69,7 +70,7 @@ function Additemsale() {
         }
       });
   };
-
+  //clear form
   const clearForm = () => {
     setitemsale({
       item_id: "",
@@ -79,7 +80,7 @@ function Additemsale() {
       unit_price: "",
     });
   };
-
+  // form for add sales data
   return (
     <>
       <button onClick={handleShow} className="btn btn-primary float-end">

@@ -39,7 +39,7 @@ function Addusage(props) {
       date: usage.date,
       usage_qty: usage.usage_qty,
     };
-
+    // Send a POST request to add usagematerial data
     axios
       .post("http://127.0.0.1:8000/api/usagematerials", data)
       .then((res) => {
@@ -58,7 +58,7 @@ function Addusage(props) {
         }
       });
   };
-
+  //clear data fields
   const clearForm = () => {
     setUsage({
       material_id: "",

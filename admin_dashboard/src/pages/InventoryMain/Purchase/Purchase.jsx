@@ -52,7 +52,7 @@ function Purchase() {
     setSelectedPurchaseId(purchaseId);
     setModalShow(true);
   };
-
+  //message for confirm delete
   const deletepurchase = (e, purchase_id) => {
     e.preventDefault();
     const shouldDelete = window.confirm(

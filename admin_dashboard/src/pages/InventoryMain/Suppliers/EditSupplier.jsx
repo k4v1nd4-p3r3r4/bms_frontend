@@ -5,6 +5,7 @@ function EditSupplier({ supplier_id }) {
   const [inputErrorList, setInputErrorList] = useState({});
   const [supplier, setSuppliers] = useState({});
 
+  // Send a get request to get supplier data according id
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/api/suppliers/${supplier_id}/supplieredit`)
@@ -24,7 +25,7 @@ function EditSupplier({ supplier_id }) {
       [e.target.name]: e.target.value,
     });
   };
-
+  //save the data
   const saveSupplier = (e) => {
     e.preventDefault();
     const data = {
@@ -33,7 +34,7 @@ function EditSupplier({ supplier_id }) {
       contact_number: supplier.contact_number,
       address: supplier.address,
     };
-
+    // Send a Put request to update supplier data
     axios
       .put(
         `http://127.0.0.1:8000/api/suppliers/${supplier_id}/supplieredit`,

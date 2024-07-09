@@ -38,7 +38,7 @@ function Editusage({ usage_id }) {
       date: usage.date,
       usage_qty: usage.usage_qty,
     };
-
+    // Send a Put request to update usage data
     axios
       .put(
         `http://127.0.0.1:8000/api/usagematerials/${usage_id}/usageedit`,

@@ -4,7 +4,7 @@ import axios from "axios";
 function Edithandlist({ hand_id }) {
   const [inputErrorList, setInputErrorList] = useState({});
   const [handlist, sethandlist] = useState({});
-
+  // Fetch handlist details from the API endpoint using Axios
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/api/handlist/${hand_id}/handedit`)
@@ -25,6 +25,7 @@ function Edithandlist({ hand_id }) {
     });
   };
 
+  //save the handlist
   const saveHandlist = (e) => {
     e.preventDefault();
     const data = {
@@ -32,7 +33,7 @@ function Edithandlist({ hand_id }) {
       item_name: handlist.item_name,
       unit: handlist.unit,
     };
-
+    // Send a Put request to add handlist data
     axios
       .put(`http://127.0.0.1:8000/api/handlist/${hand_id}/handedit`, data)
       .then((res) => {

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
 function Cards() {
   const [totalFoodSales, setTotalFoodSales] = useState(0);
   const [totalItemSales, setTotalItemSales] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpense, setTotalExpense] = useState(0);
-
+  const [totalCustomers, setTotalCustomers] = useState(0);
   useEffect(() => {
     // Fetch total food sales
     axios
@@ -55,6 +55,18 @@ function Cards() {
         console.error("Error fetching total purchase:", error);
         setTotalExpense(0);
       });
+
+    // Fetch total customers
+    axios
+      .get("http://127.0.0.1:8000/api/dashboard/totalcustomers")
+      .then((response) => {
+        console.log("Total customers response:", response.data);
+        setTotalCustomers(response.data.total_customers);
+      })
+      .catch((error) => {
+        console.error("Error fetching total customers:", error);
+        setTotalCustomers(0);
+      });
   }, []);
 
   return (
@@ -76,6 +88,7 @@ function Cards() {
               >
                 View Details
               </a>
+
               <div className="small text-white">
                 <i className="bi bi-chevron-right"></i>
               </div>
@@ -105,6 +118,25 @@ function Cards() {
             </div>
           </div>
         </div>
+        <div className="col-xl-3 col-md-6">
+          <div
+            className="card mb-4"
+            style={{ backgroundColor: "#00A86B", color: "white" }}
+          >
+            <div className="card-body">
+              Total Customers
+              <h2>{totalCustomers}</h2>
+            </div>
+            <div className="card-footer d-flex align-items-center justify-content-between">
+              <a className="small text-white stretched-link" href="/buyers">
+                View Details
+              </a>
+              <div className="small text-white">
+                <i className="bi bi-chevron-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className="col-xl-3 col-md-6">
           <div
@@ -112,7 +144,7 @@ function Cards() {
             style={{ backgroundColor: "#00A86B", color: "white" }}
           >
             <div className="card-body">
-              Total Income
+              Total Income(Rs)
               <h2>{totalIncome}</h2>
             </div>
             <div className="card-footer d-flex align-items-center justify-content-between">
@@ -129,13 +161,13 @@ function Cards() {
           </div>
         </div>
 
-        <div className="col-xl-3 col-md-6">
+        {/*  <div className="col-xl-3 col-md-6">
           <div
             className="card mb-4"
             style={{ backgroundColor: "#00A86B", color: "white" }}
           >
             <div className="card-body">
-              Total Expense
+              Total Expense(Rs)
               <h2>{totalExpense}</h2>
             </div>
             <div className="card-footer d-flex align-items-center justify-content-between">
@@ -147,7 +179,7 @@ function Cards() {
               </div>
             </div>
           </div>
-        </div>
+        </div>*/}
       </div>
     </div>
   );

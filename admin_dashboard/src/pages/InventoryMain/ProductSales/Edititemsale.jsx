@@ -16,6 +16,7 @@ function Edititemsale({ handsale_id }) {
     fetchCustomerIds(setCustomerIds); // Call fetchCustomerIds and update customerIds state
   }, []);
 
+  // Get request to get handsales data
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/api/handsales/${handsale_id}/handsaleedit`)
@@ -46,6 +47,7 @@ function Edititemsale({ handsale_id }) {
       unit_price: itemsale.unit_price,
     };
 
+    // Send a Put request to update handsales data
     axios
       .put(
         `http://127.0.0.1:8000/api/handsales/${handsale_id}/handsaleedit`,

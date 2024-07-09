@@ -5,6 +5,7 @@ function Editfoodlist({ food_id }) {
   const [inputErrorList, setInputErrorList] = useState({});
   const [foodlist, setFoodlist] = useState({});
 
+  // Fetch food details from the API endpoint using Axios
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/api/foodlist/${food_id}/foodedit`)
@@ -25,6 +26,7 @@ function Editfoodlist({ food_id }) {
     });
   };
 
+  // save the data
   const saveFoodlist = (e) => {
     e.preventDefault();
     const data = {
@@ -32,7 +34,7 @@ function Editfoodlist({ food_id }) {
       food_name: foodlist.food_name,
       unit: foodlist.unit,
     };
-
+    // Send a POST request to add foodlist data
     axios
       .put(`http://127.0.0.1:8000/api/foodlist/${food_id}/foodedit`, data)
       .then((res) => {
@@ -53,7 +55,7 @@ function Editfoodlist({ food_id }) {
         }
       });
   };
-
+  //model for edit food
   return (
     <>
       <form onSubmit={saveFoodlist}>

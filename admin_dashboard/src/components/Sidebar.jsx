@@ -3,6 +3,9 @@ import { Link } from "react-router-dom"; // Import Link component
 import "./sidebar.css";
 
 function Sidebar() {
+  {
+    /* List side bar list and icons */
+  }
   return (
     <aside id="sidebar" className="sidebar">
       <ul className="sidebar-nav" id="sidebar-nav">

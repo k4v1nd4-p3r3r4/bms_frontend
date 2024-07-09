@@ -16,6 +16,7 @@ function Editfoodsale({ foodsale_id }) {
     fetchCustomerIds(setCustomerIds); // Call fetchCustomerIds and update customerIds state
   }, []);
 
+  // Send a get request to retrieved foodsales data
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/api/foodsales/${foodsale_id}/foodsaleedit`)
@@ -31,11 +32,13 @@ function Editfoodsale({ foodsale_id }) {
   const handleInput = (e) => {
     e.persist();
     setfoodsale({
+      // Update the foodsale state with the new input value
       ...foodsale,
       [e.target.name]: e.target.value,
     });
   };
 
+  //save foodsale
   const saveFoodsale = (e) => {
     e.preventDefault();
     const data = {
@@ -45,6 +48,7 @@ function Editfoodsale({ foodsale_id }) {
       qty: foodsale.qty,
       unit_price: foodsale.unit_price,
     };
+    // Send a Put request to updatefoodsales data
     axios
       .put(
         `http://127.0.0.1:8000/api/foodsales/${foodsale_id}/foodsaleedit`,

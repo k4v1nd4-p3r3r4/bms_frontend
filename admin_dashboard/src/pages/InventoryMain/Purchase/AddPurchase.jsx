@@ -50,7 +50,7 @@ function AddPurchase(props) {
       qty: purchase.qty,
       unit_price: purchase.unit_price,
     };
-
+    // Send a POST request to addpurchase data
     axios
       .post("http://127.0.0.1:8000/api/purchaseMaterial", data)
       .then((res) => {
@@ -69,7 +69,7 @@ function AddPurchase(props) {
         }
       });
   };
-
+  //clear form fields
   const clearForm = () => {
     setPurchase({
       material_id: "",
