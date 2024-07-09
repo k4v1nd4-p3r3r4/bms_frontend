@@ -35,7 +35,7 @@ function Addfoodlist() {
       food_name: foodlist.food_name,
       unit: foodlist.unit,
     };
-
+    // Send a POST request to add food data
     axios
       .post("http://127.0.0.1:8000/api/foodlist", data)
       .then((res) => {
@@ -54,7 +54,7 @@ function Addfoodlist() {
         }
       });
   };
-
+  /* function for clear form */
   const clearForm = () => {
     setFoodlist({
       food_id: "",
@@ -63,6 +63,7 @@ function Addfoodlist() {
     });
   };
 
+  // model form for submit data
   return (
     <>
       <button onClick={handleShow} className="btn btn-primary float-end">

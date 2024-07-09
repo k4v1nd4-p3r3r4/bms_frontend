@@ -41,6 +41,7 @@ function Addfoodsale() {
     });
   };
 
+  //save the data
   const saveFoodsale = (e) => {
     e.preventDefault();
     const data = {
@@ -51,6 +52,7 @@ function Addfoodsale() {
       unit_price: foodsale.unit_price,
     };
 
+    // Send a POST request to add foodsale data
     axios
       .post("http://127.0.0.1:8000/api/foodsales", data)
       .then((res) => {
@@ -70,6 +72,7 @@ function Addfoodsale() {
       });
   };
 
+  //clear the form data
   const clearForm = () => {
     setfoodsale({
       food_id: "",

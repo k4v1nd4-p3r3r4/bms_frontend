@@ -5,7 +5,9 @@ const Pagination = ({ currentPage, itemsPerPage, totalItems, paginate }) => {
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
-
+  {
+    /* pagination for tables */
+  }
   return (
     <nav>
       <ul className="pagination">

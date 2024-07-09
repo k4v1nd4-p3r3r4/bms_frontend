@@ -30,6 +30,9 @@ function AddMaterial(props) {
     });
   };
 
+  {
+    /* function for save materials */
+  }
   const saveMaterials = (e) => {
     e.preventDefault();
     const data = {
@@ -39,6 +42,9 @@ function AddMaterial(props) {
       unit: materials.unit,
       initial_qty: materials.initial_qty,
     };
+    {
+      /* api call for the add materials data*/
+    }
     axios
       .post("http://127.0.0.1:8000/api/materials", data)
       .then((res) => {
@@ -58,6 +64,9 @@ function AddMaterial(props) {
       });
   };
 
+  {
+    /* clear the form */
+  }
   const clearForm = () => {
     setMaterials({
       material_id: "",
@@ -88,6 +97,8 @@ function AddMaterial(props) {
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={saveMaterials}>
+            {" "}
+            {/* form for submit data */}
             <div className="row mb-3">
               <div className="col-md-6">
                 <label htmlFor="material_id" className="form-label">
@@ -125,7 +136,6 @@ function AddMaterial(props) {
                 </span>
               </div>
             </div>
-
             <div className="row mb-3">
               <div className="col-md-6">
                 <label htmlFor="category" className="form-label">
@@ -159,12 +169,12 @@ function AddMaterial(props) {
                   <option value="">Select Unit</option>
                   <option value="Kg">Kg</option>
                   <option value="g">g</option>
-                  <option value="cm">cm</option>
+                  <option value="l">l</option>
+                  <option value="ml">ml</option>
                 </select>
                 <span className="text-danger">{inputErrorList.unit}</span>
               </div>
             </div>
-
             <div className="col-md-6">
               <label htmlFor="qty" className="form-label">
                 Quantity
@@ -180,7 +190,6 @@ function AddMaterial(props) {
               />
               <span className="text-danger">{inputErrorList.initial_qty}</span>
             </div>
-
             <div className="row mb-3">
               <div className="col-md-12 text-end">
                 <button

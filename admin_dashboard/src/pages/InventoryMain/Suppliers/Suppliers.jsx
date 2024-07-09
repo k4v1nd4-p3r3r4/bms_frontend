@@ -7,7 +7,7 @@ import Header from "../../../components/Header";
 import Sidebar from "../../../components/Sidebar";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import AddSupplier from "./AddSupplier";
-import SearchBox from "../../../components/SearchBox"; // Import the SearchBox component
+import SearchBox from "../../../components/SearchBox";
 import EditSupplier from "./EditSupplier";
 
 function Suppliers() {
@@ -18,6 +18,7 @@ function Suppliers() {
   const [itemsPerPage] = useState(15);
   const [searchTerm, setSearchTerm] = useState(""); // Add state for search term
 
+  //GetT request to get supplier data
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/suppliers")

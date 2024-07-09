@@ -3,94 +3,124 @@ import Chart from "react-apexcharts";
 import axios from "axios";
 
 function ReportCharts() {
-  const [foodData, setFoodData] = useState([]);
-  const [itemData, setItemData] = useState([]);
+  const [foodSellingData, setFoodSellingData] = useState([]);
+  const [itemSellingData, setItemSellingData] = useState([]);
 
   useEffect(() => {
-    // Fetch total food quantity by date
+    // Fetch total selling quantity of food items grouped by food ID
     axios
-      .get("http://127.0.0.1:8000/api/manucharts/getTotalFoodQtyByDate")
+      .get("http://127.0.0.1:8000/api/sales/getTotalFoodSellingQtyByFoodId")
       .then((response) => {
-        // Sort the data by date
-        const sortedFoodData = response.data.data.sort(
-          (a, b) => new Date(a.date) - new Date(b.date)
-        );
-        setFoodData(sortedFoodData);
+        if (response.data && response.data.data) {
+          setFoodSellingData(response.data.data);
+        } else {
+          console.error("Invalid food selling data:", response);
+        }
       })
       .catch((error) => {
-        console.error("Error fetching food data:", error);
+        console.error("Error fetching food selling data:", error);
       });
 
-    // Fetch total item quantity by date
+    // Fetch total selling quantity of items grouped by item ID
     axios
-      .get("http://127.0.0.1:8000/api/manucharts/getTotalItemQtyByDate")
+      .get("http://127.0.0.1:8000/api/sales/getTotalItemSellingQtyByItemId")
       .then((response) => {
-        // Sort the data by date
-        const sortedItemData = response.data.data.sort(
-          (a, b) => new Date(a.date) - new Date(b.date)
-        );
-        setItemData(sortedItemData);
+        if (response.data && response.data.data) {
+          setItemSellingData(response.data.data);
+        } else {
+          console.error("Invalid item selling data:", response);
+        }
       })
       .catch((error) => {
-        console.error("Error fetching item data:", error);
+        console.error("Error fetching item selling data:", error);
       });
   }, []);
 
-  // Combine food and item data into one series array
-  const seriesData = [
+  // Prepare data for combined bar chart
+  const foodSeries = foodSellingData.map((data) => ({
+    id: `F${data.food_id}`,
+    qty: data.total_qty,
+  }));
+
+  const itemSeries = itemSellingData.map((data) => ({
+    id: `H${data.item_id}`,
+    qty: data.total_qty,
+  }));
+
+  const combinedSeries = [
     {
-      name: "Foods",
-      data: foodData.map((data) => data.total_qty),
+      name: "Food Selling Quantity",
+      data: foodSeries.map((data) => data.qty),
     },
     {
-      name: "Hand-Crafts",
-      data: itemData.map((data) => data.total_qty),
+      name: "Item Selling Quantity",
+      data: itemSeries.map((data) => data.qty),
     },
   ];
 
-  // Options for the chart
+  const categories = [];
+  const maxLength = Math.max(foodSeries.length, itemSeries.length);
+
+  for (let i = 0; i < maxLength; i++) {
+    if (foodSeries[i]) {
+      categories.push(foodSeries[i].id);
+    }
+    if (itemSeries[i]) {
+      categories.push(itemSeries[i].id);
+    }
+  }
+
   const options = {
     chart: {
+      type: "bar",
       height: 350,
-      type: "area",
-      toolbar: {
-        show: false,
-      },
     },
-    markers: {
-      size: 4,
-    },
-    colors: ["#4154f1", "#2eca6a"],
-    fill: {
-      type: "gradient",
-      gradient: {
-        shadeIntensity: 1,
-        inverseColors: false,
-        opacityFrom: 0.3,
-        opacityTo: 0.04,
-        stops: [0, 100],
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: "50%",
+        endingShape: "rounded",
       },
     },
     dataLabels: {
       enabled: false,
     },
     stroke: {
-      curve: "smooth",
+      show: true,
       width: 2,
+      colors: ["transparent"],
     },
     xaxis: {
-      type: "datetime",
-      categories: foodData.map((data) => data.date),
+      categories: categories,
+      labels: {
+        style: {
+          fontSize: "12px",
+        },
+      },
+    },
+    yaxis: {
+      title: {
+        text: "Quantity",
+      },
     },
     tooltip: {
-      x: {
-        format: "dd/MM/yy HH:mm",
-      },
+      shared: true,
+      intersect: false,
+    },
+    legend: {
+      position: "top",
     },
   };
 
   return (
-    <Chart options={options} series={seriesData} type="area" height={350} />
+    <div className="sales-bar-chart">
+      <Chart
+        options={options}
+        series={combinedSeries}
+        type="bar"
+        height={350}
+      />
+    </div>
   );
 }
 

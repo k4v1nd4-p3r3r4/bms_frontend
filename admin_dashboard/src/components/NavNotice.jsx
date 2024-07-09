@@ -24,28 +24,19 @@ function NavNotice() {
     }
   };
 
-  const handleCloseNotification = async (materialId, index) => {
-    try {
-      await axios.delete(
-        `http://127.0.0.1:8000/api/notify/notifications/${materialId}`
-      );
-      const updatedNotifications = [...notifications];
-      updatedNotifications.splice(index, 1);
-      setNotifications(updatedNotifications);
-    } catch (error) {
-      console.error("Error deleting notification:", error);
-    }
+  const handleCloseNotification = (index) => {
+    const updatedNotifications = [...notifications];
+    updatedNotifications.splice(index, 1);
+    setNotifications(updatedNotifications);
   };
 
   return (
     <li className="header-nav nav-item dropdown">
-      {" "}
-      {/* Add class "header-nav" */}
       <a className="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
         <i className="bi bi-bell"></i>
         <span className="badge bg-danger badge">{notifications.length}</span>
       </a>
-      <ul className="dropdown-menu dropdown-menu end dropdown-menu-arrow notifications">
+      <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
         <li className="dropdown-header">
           You have {notifications.length} new notifications
         </li>
@@ -56,13 +47,11 @@ function NavNotice() {
           <li key={index} className="notification-item">
             <i
               className="bi bi-x-circle text-danger"
-              onClick={() =>
-                handleCloseNotification(notification.material_id, index)
-              }
+              onClick={() => handleCloseNotification(index)}
               style={{ cursor: "pointer" }}
             ></i>
             <div>
-              <h4>{notification.material_name}</h4>
+              <h4>{notification.name}</h4>
               <p>{notification.message}</p>
               <p>{notification.timestamp}</p>
             </div>

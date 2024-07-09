@@ -61,6 +61,7 @@ function Foodlist() {
     );
     if (shouldDelete) {
       const thisClicked = e.currentTarget;
+      //delete request for delete
       axios
         .delete(`http://127.0.0.1:8000/api/foodlist/${food_id}/fooddelete`)
         .then((res) => {

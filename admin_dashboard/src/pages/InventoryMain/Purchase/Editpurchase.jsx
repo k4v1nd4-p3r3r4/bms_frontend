@@ -15,7 +15,7 @@ function Editpurchase({ purchase_id }) {
     fetchMaterialIds(setMaterialIds); // Call fetchMaterialIds and update materialIds state
     fetchSupplierIds(setSupplierIds); // Call fetchSupplierIds and update supplierIds state
   }, []);
-
+  // get request to get purchase data according id
   useEffect(() => {
     axios
       .get(

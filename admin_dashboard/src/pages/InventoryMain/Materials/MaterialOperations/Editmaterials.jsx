@@ -7,6 +7,7 @@ function Editmaterials({ material_id }) {
   const [inputErrorList, setInputErrorList] = useState({});
   const [materials, setMaterials] = useState({});
 
+  // Fetch material details from the API using axios
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/api/materials/${material_id}/edit`)
@@ -29,7 +30,7 @@ function Editmaterials({ material_id }) {
 
   const saveMaterials = (e) => {
     e.preventDefault();
-
+    // Prepare data object with material details
     const data = {
       material_id: materials.material_id,
       material_name: materials.material_name,
@@ -37,6 +38,8 @@ function Editmaterials({ material_id }) {
       unit: materials.unit,
       initial_qty: materials.initial_qty,
     };
+
+    // Send a PUT request to update material details
     axios
       .put(`http://127.0.0.1:8000/api/materials/${material_id}/edit`, data)
       .then((res) => {
@@ -57,7 +60,7 @@ function Editmaterials({ material_id }) {
         }
       });
   };
-
+  /* form for submit data */
   return (
     <>
       <form onSubmit={saveMaterials}>

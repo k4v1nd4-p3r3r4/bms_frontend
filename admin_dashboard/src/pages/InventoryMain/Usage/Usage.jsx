@@ -24,6 +24,7 @@ function Usage() {
   const [usage, setUsage] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Send a get request to get usage data
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/usagematerials").then((res) => {
       console.log(res);

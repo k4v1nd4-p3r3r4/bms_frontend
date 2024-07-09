@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 
+// State for controlling the visibility of the modal
 function Addhandlist() {
   const [modalShow, setModalShow] = useState(false);
   const [inputErrorList, setInputErrorList] = useState({});
@@ -28,6 +29,7 @@ function Addhandlist() {
     });
   };
 
+  // function for save the data
   const saveHandlist = (e) => {
     e.preventDefault();
     const data = {
@@ -36,6 +38,7 @@ function Addhandlist() {
       unit: handlist.unit,
     };
 
+    // Send a POST request to add handlist data
     axios
       .post("http://127.0.0.1:8000/api/handlist", data)
       .then((res) => {
@@ -54,7 +57,7 @@ function Addhandlist() {
         }
       });
   };
-
+  // clear the handlist
   const clearForm = () => {
     setHandlist({
       item_id: "",
@@ -62,7 +65,7 @@ function Addhandlist() {
       unit: "",
     });
   };
-
+  // model for add handitem details
   return (
     <>
       <button onClick={handleShow} className="btn btn-primary float-end">
