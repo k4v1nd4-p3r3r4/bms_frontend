@@ -166,7 +166,7 @@ function Sidebar() {
         <li className="nav-item">
           <Link to="/dayilytransaction" className="nav-link">
             <i className="bi bi-cash-coin"></i>
-            <span>Daily Transaction</span>
+            <span>Other Expences</span>
           </Link>
         </li>
 
