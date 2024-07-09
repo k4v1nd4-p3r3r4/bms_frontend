@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "../../pages/Login/Login";
+import Register from "../../pages/Register/Register"
 import Dashboard from "../../pages/InventoryMain/Dashboard/Dashboard";
 import Materials from "../../pages/InventoryMain/Materials/Materials";
 import Purchase from "../../pages/InventoryMain/Purchase/Purchase";
@@ -20,11 +21,17 @@ import Invoice from "../../pages/FinanceMain/Invoice/Invoice";
 import Reports from "../../pages/FinanceMain/Reports/Reports";
 import Editmaterials from "../../pages/InventoryMain/Materials/MaterialOperations/Editmaterials";
 import FoodSale from "../../pages/InventoryMain/ProductSales/FoodSale";
+import Addexpence from "../../pages/FinanceMain/DayTransaction/Addexpence";
+
 
 function MyRoutes() {
   return (
+   
     <Routes>
+      
       <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
 
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/materials" element={<Materials />} />
@@ -44,12 +51,30 @@ function MyRoutes() {
       <Route path="/invoice" element={<Invoice />} />
       <Route path="/reports" element={<Reports />} />
       <Route path="/foodsale" element={<FoodSale />} />
+      <Route path="productlist" element={<Productlist />} />
+      <Route path="manufactured" element={<Manufactured />} />
+      <Route path="productsales" element={<Productsales />} />
+      <Route path="productstock" element={<Productstock />} />
+      <Route path="buyers" element={<Buyers />} />
+      <Route path="suppliers" element={<Suppliers />} />
+      <Route path="users" element={<Users />} />
+      <Route path="allemp" element={<AllEmp />} />
+      <Route path="attendence" element={<Attendence />} />
+      <Route path="leaves" element={<Leaves />} />
+      <Route path="dailytasks" element={<DailyTasks />} />
+      <Route path="dayilytransaction" element={<DailyTransaction />} />
+      <Route path="dayilytransaction/addExpences" element={<Addexpence />} />
+      <Route path="invoice" element={<Invoice />} />
+      <Route path="reports" element={<Reports />} />
+
 
       <Route
         path="Editmaterials/:material_id/edit"
         element={<Editmaterials />}
       />
+    
     </Routes>
+   
   );
 }
 

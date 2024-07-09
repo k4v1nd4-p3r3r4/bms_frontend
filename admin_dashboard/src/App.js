@@ -10,11 +10,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 //import Sidebar from "./components/Sidebar";
 import MyRoutes from "./components/AppRoutes/MyRoutes";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 function App() {
   return (
     <div className="content">
-      <MyRoutes />
+
+      {/* <MyRoutes /> */}
+
+     
+      
+         <MyRoutes />
+    
     </div>
   );
 }
