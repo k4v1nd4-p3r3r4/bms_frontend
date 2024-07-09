@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 
-function AddMaterial(props) {
+function AddBuyers(props) {
   const [modalShow, setModalShow] = useState(false);
   const [inputErrorList, setInputErrorList] = useState({});
 
-  const [materials, setMaterials] = useState({
-    material_id: "",
-    material_name: "",
-    category: "",
-    unit: "",
-    initial_qty: "",
+  const [customers, setCustomers] = useState({
+    customer_id: "",
+    first_name: "",
+    last_name: "",
+    contact: "",
+    address: "",
   });
 
   const handleShow = () => {
@@ -24,27 +24,27 @@ function AddMaterial(props) {
 
   const handleInput = (e) => {
     e.persist();
-    setMaterials({
-      ...materials,
+    setCustomers({
+      ...customers,
       [e.target.name]: e.target.value,
     });
   };
 
-  const saveMaterials = (e) => {
+  const saveCustomers = (e) => {
     e.preventDefault();
     const data = {
-      material_id: materials.material_id,
-      material_name: materials.material_name,
-      category: materials.category,
-      unit: materials.unit,
-      initial_qty: materials.initial_qty,
+      customer_id: customers.customer_id,
+      first_name: customers.first_name,
+      last_name: customers.last_name,
+      contact: customers.contact,
+      address: customers.address,
     };
     axios
-      .post("http://127.0.0.1:8000/api/materials", data)
+      .post("http://127.0.0.1:8000/api/customers", data)
       .then((res) => {
         alert(res.data.message);
         setModalShow(false); // Close the modal
-        window.location.reload(); // Reload the materials page
+        window.location.reload(); // Reload the customers page
       })
       .catch(function (error) {
         if (error.response) {
@@ -59,15 +59,14 @@ function AddMaterial(props) {
   };
 
   const clearForm = () => {
-    setMaterials({
-      material_id: "",
-      material_name: "",
-      category: "",
-      unit: "",
-      initial_qty: "",
+    setCustomers({
+      customer_id: "",
+      first_name: "",
+      last_name: "",
+      contact: "",
+      address: "",
     });
   };
-
   return (
     <>
       <button onClick={handleShow} className="btn btn-primary float-end">
@@ -83,102 +82,96 @@ function AddMaterial(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Add Material
+            Add Customer
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={saveMaterials}>
+          <form onSubmit={saveCustomers}>
             <div className="row mb-3">
               <div className="col-md-6">
-                <label htmlFor="material_id" className="form-label">
-                  Material id
+                <label htmlFor="customer_id" className="form-label">
+                  Customer id
                 </label>
                 <input
                   type="text"
-                  name="material_id"
-                  id="mid"
-                  placeholder="Enter material id here..(ex: Mxxx)"
+                  name="customer_id"
+                  id="cid"
+                  placeholder="Enter customer id here..(ex: Cxxx)"
                   className="form-control"
-                  value={materials.material_id}
+                  value={customers.customer_id}
                   onChange={handleInput}
                 />
                 <span className="text-danger">
-                  {inputErrorList.material_id}
+                  {inputErrorList.customer_id}
                 </span>
+              </div>
+            </div>
+            <div className="row mb-3">
+              <div className="col-md-6">
+                <label htmlFor="first_name" className="form-label">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  name="first_name"
+                  id="fname"
+                  placeholder="Enter first name here.."
+                  className="form-control"
+                  value={customers.first_name}
+                  onChange={handleInput}
+                />
+                <span className="text-danger">{inputErrorList.first_name}</span>
               </div>
 
               <div className="col-md-6">
-                <label htmlFor="material_name" className="form-label">
-                  Material Name
+                <label htmlFor="last_name" className="form-label">
+                  Last Name
                 </label>
                 <input
                   type="text"
-                  name="material_name"
-                  id="maname"
-                  placeholder="Enter material name here.."
+                  name="last_name"
+                  id="lname"
+                  placeholder="Enter last name here.."
                   className="form-control"
-                  value={materials.material_name}
+                  value={customers.last_name}
                   onChange={handleInput}
                 />
-                <span className="text-danger">
-                  {inputErrorList.material_name}
-                </span>
+                <span className="text-danger">{inputErrorList.last_name}</span>
               </div>
             </div>
 
             <div className="row mb-3">
               <div className="col-md-6">
-                <label htmlFor="category" className="form-label">
-                  Category
+                <label htmlFor="contact" className="form-label">
+                  Contact Number
                 </label>
-                <select
-                  name="category"
-                  id="category"
+                <input
+                  type="text"
+                  name="contact"
+                  id="contact"
+                  placeholder="Enter contact here.."
                   className="form-control"
-                  value={materials.category}
+                  value={customers.contact}
                   onChange={handleInput}
-                >
-                  <option value="">Select category</option>
-                  <option value="Food">Food</option>
-                  <option value="Hand craft">Hand craft</option>
-                </select>
-                <span className="text-danger">{inputErrorList.category}</span>
+                />
+                <span className="text-danger">{inputErrorList.contact}</span>
               </div>
 
               <div className="col-md-6">
-                <label htmlFor="unit of measure" className="form-label">
-                  Unit of measure
+                <label htmlFor="address" className="form-label">
+                  Address
                 </label>
-                <select
-                  name="unit"
-                  id="material_unit"
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  placeholder="Enter address here.."
                   className="form-control"
-                  value={materials.unit}
+                  value={customers.address}
                   onChange={handleInput}
-                >
-                  <option value="">Select Unit</option>
-                  <option value="Kg">Kg</option>
-                  <option value="g">g</option>
-                  <option value="cm">cm</option>
-                </select>
-                <span className="text-danger">{inputErrorList.unit}</span>
+                />
+                <span className="text-danger">{inputErrorList.address}</span>
               </div>
-            </div>
-
-            <div className="col-md-6">
-              <label htmlFor="qty" className="form-label">
-                Quantity
-              </label>
-              <input
-                type="text"
-                name="initial_qty"
-                id="qty"
-                placeholder="Enter your quantity here.."
-                className="form-control"
-                value={materials.initial_qty}
-                onChange={handleInput}
-              />
-              <span className="text-danger">{inputErrorList.initial_qty}</span>
             </div>
 
             <div className="row mb-3">
@@ -208,4 +201,4 @@ function AddMaterial(props) {
   );
 }
 
-export default AddMaterial;
+export default AddBuyers;

@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 
-function AddMaterial(props) {
+function Addhandlist() {
   const [modalShow, setModalShow] = useState(false);
   const [inputErrorList, setInputErrorList] = useState({});
 
-  const [materials, setMaterials] = useState({
-    material_id: "",
-    material_name: "",
-    category: "",
+  const [handlist, setHandlist] = useState({
+    item_id: "",
+    item_name: "",
     unit: "",
-    initial_qty: "",
   });
 
   const handleShow = () => {
@@ -24,27 +22,26 @@ function AddMaterial(props) {
 
   const handleInput = (e) => {
     e.persist();
-    setMaterials({
-      ...materials,
+    setHandlist({
+      ...handlist,
       [e.target.name]: e.target.value,
     });
   };
 
-  const saveMaterials = (e) => {
+  const saveHandlist = (e) => {
     e.preventDefault();
     const data = {
-      material_id: materials.material_id,
-      material_name: materials.material_name,
-      category: materials.category,
-      unit: materials.unit,
-      initial_qty: materials.initial_qty,
+      item_id: handlist.item_id,
+      item_name: handlist.item_name,
+      unit: handlist.unit,
     };
+
     axios
-      .post("http://127.0.0.1:8000/api/materials", data)
+      .post("http://127.0.0.1:8000/api/handlist", data)
       .then((res) => {
         alert(res.data.message);
         setModalShow(false); // Close the modal
-        window.location.reload(); // Reload the materials page
+        window.location.reload(); // Reload the  page
       })
       .catch(function (error) {
         if (error.response) {
@@ -59,12 +56,10 @@ function AddMaterial(props) {
   };
 
   const clearForm = () => {
-    setMaterials({
-      material_id: "",
-      material_name: "",
-      category: "",
+    setHandlist({
+      item_id: "",
+      item_name: "",
       unit: "",
-      initial_qty: "",
     });
   };
 
@@ -83,102 +78,63 @@ function AddMaterial(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Add Material
+            Add Handcraft List
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={saveMaterials}>
+          <form onSubmit={saveHandlist}>
             <div className="row mb-3">
               <div className="col-md-6">
-                <label htmlFor="material_id" className="form-label">
-                  Material id
+                <label htmlFor="food_id" className="form-label">
+                  Item id
                 </label>
                 <input
                   type="text"
-                  name="material_id"
-                  id="mid"
-                  placeholder="Enter material id here..(ex: Mxxx)"
+                  name="item_id"
+                  id="itid"
+                  placeholder="Enter Food id here..(ex: Hxxx)"
                   className="form-control"
-                  value={materials.material_id}
+                  value={handlist.item_id}
                   onChange={handleInput}
                 />
-                <span className="text-danger">
-                  {inputErrorList.material_id}
-                </span>
+                <span className="text-danger">{inputErrorList.item_id}</span>
               </div>
 
               <div className="col-md-6">
-                <label htmlFor="material_name" className="form-label">
-                  Material Name
+                <label htmlFor="food_name" className="form-label">
+                  Item Name
                 </label>
                 <input
                   type="text"
-                  name="material_name"
-                  id="maname"
-                  placeholder="Enter material name here.."
+                  name="item_name"
+                  id="iname"
+                  placeholder="Enter food name here.."
                   className="form-control"
-                  value={materials.material_name}
+                  value={handlist.item_name}
                   onChange={handleInput}
                 />
-                <span className="text-danger">
-                  {inputErrorList.material_name}
-                </span>
+                <span className="text-danger">{inputErrorList.item_name}</span>
               </div>
             </div>
 
             <div className="row mb-3">
               <div className="col-md-6">
-                <label htmlFor="category" className="form-label">
-                  Category
-                </label>
-                <select
-                  name="category"
-                  id="category"
-                  className="form-control"
-                  value={materials.category}
-                  onChange={handleInput}
-                >
-                  <option value="">Select category</option>
-                  <option value="Food">Food</option>
-                  <option value="Hand craft">Hand craft</option>
-                </select>
-                <span className="text-danger">{inputErrorList.category}</span>
-              </div>
-
-              <div className="col-md-6">
-                <label htmlFor="unit of measure" className="form-label">
+                <label htmlFor="unit" className="form-label">
                   Unit of measure
                 </label>
                 <select
                   name="unit"
-                  id="material_unit"
+                  id="unit"
                   className="form-control"
-                  value={materials.unit}
+                  value={handlist.unit}
                   onChange={handleInput}
                 >
                   <option value="">Select Unit</option>
                   <option value="Kg">Kg</option>
-                  <option value="g">g</option>
-                  <option value="cm">cm</option>
+                  <option value="Pieces">Pieces</option>
                 </select>
                 <span className="text-danger">{inputErrorList.unit}</span>
               </div>
-            </div>
-
-            <div className="col-md-6">
-              <label htmlFor="qty" className="form-label">
-                Quantity
-              </label>
-              <input
-                type="text"
-                name="initial_qty"
-                id="qty"
-                placeholder="Enter your quantity here.."
-                className="form-control"
-                value={materials.initial_qty}
-                onChange={handleInput}
-              />
-              <span className="text-danger">{inputErrorList.initial_qty}</span>
             </div>
 
             <div className="row mb-3">
@@ -202,10 +158,11 @@ function AddMaterial(props) {
             </div>
           </form>
         </Modal.Body>
+
         <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );
 }
 
-export default AddMaterial;
+export default Addhandlist;

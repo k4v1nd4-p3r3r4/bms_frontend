@@ -9,7 +9,6 @@ import Usage from "../../pages/InventoryMain/Usage/Usage";
 import Productlist from "../../pages/InventoryMain/ProductList/Productlist";
 import Manufactured from "../../pages/InventoryMain/ProductManufac/Manufactured";
 import Productsales from "../../pages/InventoryMain/ProductSales/Productsales";
-import Productstock from "../../pages/InventoryMain/ProductStock/Productstock";
 import Buyers from "../../pages/InventoryMain/Buyers/Buyers";
 import Suppliers from "../../pages/InventoryMain/Suppliers/Suppliers";
 import Users from "../../pages/EmployeesMain/Users/Users";
@@ -21,8 +20,8 @@ import DailyTransaction from "../../pages/FinanceMain/DayTransaction/DailyTransa
 import Invoice from "../../pages/FinanceMain/Invoice/Invoice";
 import Reports from "../../pages/FinanceMain/Reports/Reports";
 import Editmaterials from "../../pages/InventoryMain/Materials/MaterialOperations/Editmaterials";
+import FoodSale from "../../pages/InventoryMain/ProductSales/FoodSale";
 import Addexpence from "../../pages/FinanceMain/DayTransaction/Addexpence";
-
 
 
 function MyRoutes() {
@@ -38,6 +37,20 @@ function MyRoutes() {
       <Route path="/materials" element={<Materials />} />
       <Route path="/purchase" element={<Purchase />} />
       <Route path="/usage" element={<Usage />} />
+      <Route path="/productlist" element={<Productlist />} />
+      <Route path="/manufactured" element={<Manufactured />} />
+      <Route path="/productsales" element={<Productsales />} />
+      <Route path="/buyers" element={<Buyers />} />
+      <Route path="/suppliers" element={<Suppliers />} />
+      <Route path="/users" element={<Users />} />
+      <Route path="/allemp" element={<AllEmp />} />
+      <Route path="/attendence" element={<Attendence />} />
+      <Route path="/leaves" element={<Leaves />} />
+      <Route path="/dailytasks" element={<DailyTasks />} />
+      <Route path="/dayilytransaction" element={<DailyTransaction />} />
+      <Route path="/invoice" element={<Invoice />} />
+      <Route path="/reports" element={<Reports />} />
+      <Route path="/foodsale" element={<FoodSale />} />
       <Route path="productlist" element={<Productlist />} />
       <Route path="manufactured" element={<Manufactured />} />
       <Route path="productsales" element={<Productsales />} />
@@ -53,6 +66,7 @@ function MyRoutes() {
       <Route path="dayilytransaction/addExpences" element={<Addexpence />} />
       <Route path="invoice" element={<Invoice />} />
       <Route path="reports" element={<Reports />} />
+
 
       <Route
         path="Editmaterials/:material_id/edit"
